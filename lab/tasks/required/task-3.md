@@ -23,9 +23,10 @@ Finally, you will use an AI agent to add a new feature to the front-end.
     - [1.3.1. Navigate to the front-end project directory](#131-navigate-to-the-front-end-project-directory)
     - [1.3.2. Configure the environment for frontend](#132-configure-the-environment-for-frontend)
     - [1.3.3. Start the dev server](#133-start-the-dev-server)
-    - [1.3.4. Edit a source file and observe hot reload](#134-edit-a-source-file-and-observe-hot-reload)
-    - [1.3.5. Commit the changes](#135-commit-the-changes)
-    - [1.3.6. Transfer the changes to your VM](#136-transfer-the-changes-to-your-vm)
+    - [1.3.4. Inspect the local storage](#134-inspect-the-local-storage)
+    - [1.3.5. Edit a source file and observe hot reload](#135-edit-a-source-file-and-observe-hot-reload)
+    - [1.3.6. Commit the changes](#136-commit-the-changes)
+    - [1.3.7. Transfer the changes to your VM](#137-transfer-the-changes-to-your-vm)
   - [1.4. Part B: Prod version](#14-part-b-prod-version)
     - [1.4.1. Deploy the frontend to the VM](#141-deploy-the-frontend-to-the-vm)
     - [1.4.2. Verify in the browser](#142-verify-in-the-browser)
@@ -57,10 +58,11 @@ Title: `[Task] Add Front-end`
 Complete these steps:
 
 <!-- no toc -->
-1. [Navigate to the front-end project directory](#131-navigate-to-the-front-end-project-directory)
-2. [Configure the environment for frontend](#132-configure-the-environment-for-frontend)
-3. [Start the dev server](#133-start-the-dev-server)
-4. [Edit a source file and observe hot reload](#134-edit-a-source-file-and-observe-hot-reload)
+1. [Navigate to the front-end project directory](#131-navigate-to-the-front-end-project-directory).
+2. [Configure the environment for frontend](#132-configure-the-environment-for-frontend).
+3. [Start the dev server](#133-start-the-dev-server).
+4. [Start the dev server](#134-inspect-the-local-storage).
+5. [Edit a source file and observe hot reload](#135-edit-a-source-file-and-observe-hot-reload).
 
 #### 1.3.1. Navigate to the front-end project directory
 
@@ -122,15 +124,27 @@ Complete these steps:
    ➜  Local:   http://localhost:5173/
    ```
 
-2. Open the URL shown in the terminal output in a browser: <http://localhost:5173/>
+2. Open the [URL](../../../wiki/computer-networks.md#url) shown in the terminal output in a browser (`<dev-url>`).
 
-   Verify that the front-end loads and asks for an API key.
+   Example: <http://localhost:5173/>
 
-3. Log in to the app.
+   Verify that the frontend loads and asks for an [API key](../../../wiki/api.md#api-key).
+
+3. Log in using the [`API_KEY`](../../../wiki/dotenv-docker-secret.md#api_key) from [`.env.docker.secret`](../../../wiki/dotenv-docker-secret.md#what-is-envdockersecret) that you used to deploy the [`app` service](../../../wiki/docker-compose-yml.md#app-service).
 
    You should see a table with items.
 
-#### 1.3.4. Edit a source file and observe hot reload
+#### 1.3.4. Inspect the local storage
+
+1. [Open the local storage](../../../wiki/browser-developer-tools.md#open-the-local-storage-tab).
+
+1. [See local storage for the URL](../../../wiki/browser-developer-tools.md#see-local-storage-for-the-url) `<dev-url>`.
+
+   The key should be `api_key`.
+
+   The value should be the value of [`API_KEY`](../../../wiki/dotenv-docker-secret.md#api_key) from [`.env.docker.secret`](../../../wiki/dotenv-docker-secret.md#what-is-envdockersecret) on [your VM](../../../wiki/vm.md#your-vm).
+
+#### 1.3.5. Edit a source file and observe hot reload
 
 1. Open the file [`frontend/src/App.tsx`](../../../frontend/src/App.tsx) ([how to open a file](../../../wiki/vs-code.md#open-the-file)).
 
@@ -153,7 +167,7 @@ Complete these steps:
 > [!NOTE]
 > The dev server picks up the changes automatically — no rebuild is needed.
 
-#### 1.3.5. Commit the changes
+#### 1.3.6. Commit the changes
 
 1. [Commit changes](../../../wiki/git-workflow.md#commit-changes).
 
@@ -163,7 +177,7 @@ Complete these steps:
    fix: change the column name from "ItemType" to "Type"
    ```
 
-#### 1.3.6. Transfer the changes to your VM
+#### 1.3.7. Transfer the changes to your VM
 
 1. [Transfer the changes to your VM](./task-2.md#137-transfer-the-changes-to-your-vm) like in the Task 2.
 
