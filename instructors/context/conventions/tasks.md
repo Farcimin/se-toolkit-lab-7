@@ -67,7 +67,7 @@ Every task file (`task-N.md`) must follow this structure:
 
 <h4>Diagram</h4>
 
-<Mermaid sequence diagram showing the overall task flow — optional, omit if not needed.>
+<Mermaid sequence diagram showing the overall task flow — required whenever applicable.>
 
 <h4>Table of contents</h4>
 
@@ -126,7 +126,8 @@ Title: `[Task] <Task title>`
 ### 1.1. Key rules for task documents
 
 - **Time, Purpose, Context, Diagram, Table of contents** use `<h4>` HTML tags so they don't appear in the document's auto-generated ToC.
-- **Diagram** is optional. Include it when a sequence diagram helps students understand the overall task flow — who does what, in what order, across which environments — before they start the steps. Use a `mermaid` fenced code block with `sequenceDiagram`. Place it between Context and Table of contents. Use Mermaid for sequence/flow diagrams (actions across actors and environments, e.g., Developer → Local → VM → GitHub). Use `.drawio.svg` (see [Diagrams](./common.md#413-diagrams)) for architecture or structural diagrams that need to be editable and reused across files.
+- **Diagram** is required whenever the task involves actions across multiple actors or environments. Include it so students understand the overall task flow — who does what, in what order, across which environments — before they start the steps. Omit only for simple, single-environment tasks where the flow is self-evident from the steps alone. Use a `mermaid` fenced code block with `sequenceDiagram`. Place it between Context and Table of contents. Use Mermaid for sequence/flow diagrams (actions across actors and environments, e.g., Developer → Local → VM → GitHub). Use `.drawio.svg` (see [Diagrams](./common.md#413-diagrams)) for architecture or structural diagrams that need to be editable and reused across files. In sequence diagrams: use `actor` for human roles (e.g., `actor Developer`) and `participant` for systems. Use `Note over <first>,<last>: <label>` to mark phase boundaries in multi-part tasks (e.g., `Note over Developer,VM: Part A — Explore the API`).
+  Each arrow label must show one action — never combine unrelated commands with `&&`. When the same service type runs in multiple environments, append the environment in parentheses on a new line in the participant label to disambiguate: `App+DB<br/>(your computer)`, `App+DB<br/>(your VM)`. Append the hosting environment to external services too when it helps orient the student: `Autochecker API<br/>(instructors' VM)`.
 - **Top-level sections are numbered:** `## 1. Steps` and `## 2. Acceptance criteria`. Steps are numbered as `### 1.1.`, `### 1.2.`, etc. This matches the pattern used in `setup.md` and makes anchor links unambiguous.
 - When a `###` step covers multiple distinct sub-goals, split it into `####` sub-sections with a deeper number (`#### 1.3.1.`, `#### 1.3.2.`, etc.) and a descriptive title for each. Reflect the hierarchy in the ToC with indented entries. Add an inline mini-ToC (a bullet list of links to the sub-sections) right after the `###` heading so readers see the structure without scrolling back to the document-level ToC. Use a flat numbered list only when all actions serve a single, unified goal within the same sub-section.
 - **Step 1.1** ("Follow the Git workflow") is present in tasks that require a branch + PR. Omit for tasks that don't produce commits (e.g., "Run the web server").
@@ -190,7 +191,7 @@ When sub-items describe the behavior of an artifact being created (a workflow, c
    3. Runs all end-to-end tests.
 ```
 
-When actions don't share a logical goal, flatten them into separate top-level steps (see [Instructions wording](./common.md#41-instructions-wording)).
+When actions don't share a logical goal, flatten them into separate top-level steps (see [Instructions wording](./common.md#41-instructions-wording)). Never chain commands from different tools or concerns with `&&` — split them into separate numbered steps. For example, `git pull` (version control) and `docker compose up` (container management) must be separate steps even when run in sequence.
 
 ---
 
@@ -418,8 +419,8 @@ Steps that involve infrastructure or environment-dependent operations (`Docker`,
 Key rules:
 
 - **Place after the checkpoint.** The troubleshooting block follows the "You should see…" checkpoint, because students only need it when the checkpoint fails.
-- **Use the summary `Troubleshooting`.** This keeps a consistent label that students learn to look for.
-- **Use `<h4>` for each symptom.** Start each entry with an `<h4>` tag containing the symptom (what the student sees), then the fix. `<h4>` renders as a visible heading but stays out of the auto-generated ToC — the same pattern used for Time, Purpose, and Context in the task template.
+- **Use the summary `<b>Troubleshooting (click to open)</b>`.** Bold text makes the block easy to spot in long pages. The parenthetical tells students the block is interactive.
+- **Use `<h4>` for each symptom.** Start each entry with an `<h4>` tag containing the symptom (what the student sees), then the fix. `<h4>` renders as a visible heading but stays out of the auto-generated ToC — the same pattern used for Time, Purpose, and Context in the task template. Never use markdown headings (`####`) inside a troubleshooting block.
 - **Keep it brief.** Cover only the 2–3 most common failures per block. Rare edge cases can still go to the TA.
 - **Link to wiki instead of duplicating.** When a fix involves a reusable tool operation (e.g., stopping a process, restarting a service), link to the relevant wiki section rather than re-explaining the steps inline.
 - **Only add to infrastructure steps.** Steps involving external systems or environment-dependent operations where common failures are predictable. Simple file edits or `Git` commands don't need troubleshooting blocks.
@@ -431,7 +432,7 @@ Good:
 
    You should see all containers running.
 
-   <details><summary>Troubleshooting</summary>
+   <details><summary><b>Troubleshooting (click to open)</b></summary>
 
    <h4>Port conflict (<code>port is already allocated</code>)</h4>
 
@@ -741,6 +742,9 @@ See [Autochecker-verifiable outcomes](#421-autochecker-verifiable-outcomes).
 - [ ] Partner/collaborator setup is documented.
 - [ ] `CONTRIBUTORS.md` exists with placeholder entry.
 - [ ] Diagrams use `.drawio.svg` format.
+- [ ] Tasks with actions across multiple actors or environments include a Mermaid sequence diagram.
+- [ ] Sequence diagram arrow labels each show one action (no `&&`-chained commands).
+- [ ] Participants running in multiple environments use `<br/>` to separate the environment on a new line (e.g., `App+DB<br/>(your computer)`).
 - [ ] `<!-- TODO -->` markers exist for unfinished sections.
 
 **Conditional (include when applicable):**

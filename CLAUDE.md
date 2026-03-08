@@ -29,6 +29,12 @@ Read and follow:
 - [`docs/design/architecture.md`](docs/design/architecture.md) — C4 architecture, domain model, container layout, component structure, and design decisions
 - [`docs/contributing/conventions/code.md`](docs/contributing/conventions/code.md) — naming, comments, type safety, linting, shift-left testing, security
 
+## When editing `.claude/skills/`
+
+Read and follow:
+
+- [`docs/contributing/conventions/skills.md`](docs/contributing/conventions/skills.md) — skill file structure, frontmatter fields, agent-neutral language, body sections
+
 ## When editing `instructors/context/conventions/`
 
 Read before making changes:

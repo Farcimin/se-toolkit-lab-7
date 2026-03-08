@@ -54,6 +54,7 @@ Docs:
 - Link to other wiki sections whenever a concept appears for the first time in a section (see [Links and cross-references](./common.md#48-links-and-cross-references)).
 - **Connect the dots.** Wiki files are often read in isolation — readers jump in from a task link. Don't just define a concept; situate it. Use cross-links and connecting wording (e.g., `` `X` works together with `Y` to… ``, `` When using `Z`, you will also need… ``) to help readers understand how concepts relate to each other and to the broader system.
 - Use `<h2>Table of contents</h2>` (HTML) so the ToC heading itself doesn't appear in the auto-generated ToC.
+- When a section has many sub-sections or steps, add a mini-ToC (see [Mini-ToC](./common.md#46-mini-toc)).
 - When an operation can be done multiple ways, list them as options: "Use any of the following methods:"
 - These wiki files must stay in sync with their corresponding source files — variable names, default values, and grouping must match:
   - `wiki/dotenv-docker-secret.md` ↔ `.env.docker.example`
@@ -62,6 +63,8 @@ Docs:
   - `wiki/pyproject-toml.md` ↔ `pyproject.toml`
 - Vendor instructions that aren't good enough anywhere else (e.g., rewrite unclear official docs).
 - Provide fallback methods when one method may not work for all students.
+- **Avoid sub-steps; use sections instead.** When a wiki step would need nested sub-steps, extract them into a separate subsection with its own flat step list. This keeps each section independently linkable and easier to follow.
+- **Placeholder section titles** must use the format `` `<placeholder>` placeholder `` to avoid collision with the concept section of the same name. Example: a wiki file may have both `### Username` (explaining what a username is) and `` ### `<username>` placeholder `` (defining the placeholder). Without the word "placeholder" in the title, the two sections would collide.
 
 ### 1.5. Standard wiki topics to include
 

@@ -6,13 +6,17 @@
 
 <h4>Purpose</h4>
 
-Implement four analytics endpoints that perform `SQL` aggregation queries on the data populated by the ETL pipeline. Use pre-written tests to verify your implementation.
+Implement four analytics endpoints using `SQL` aggregation queries and verify them with pre-written tests.
 
 <h4>Context</h4>
 
-The ETL pipeline from Task 1 has populated the database with check results. Now the team needs endpoints that aggregate this data for dashboards: score distributions, per-task pass rates, submission timelines, and per-group performance.
+The ETL pipeline from [Task 1](./task-1.md) has populated the database with check results. Now the team needs endpoints that aggregate this data for dashboards: score distributions, per-task pass rates, submission timelines, and per-group performance.
 
 Pre-written tests in [`backend/tests/unit/test_analytics.py`](../../../backend/tests/unit/test_analytics.py) define the expected behavior. Your job is to implement the endpoints so that all tests pass.
+
+<h4>Diagram</h4>
+
+<!-- TODO fill in this section -->
 
 <h4>Table of contents</h4>
 
@@ -50,16 +54,17 @@ Title: `[Task] Analytics Endpoints`
 
    This file contains 17 tests organized into four test classes:
 
-   | Test class | Endpoint | What it tests |
-   |------------|----------|---------------|
-   | `TestScores` | `GET /analytics/scores?lab=lab-04` | Score histogram with 4 buckets |
-   | `TestPassRates` | `GET /analytics/pass-rates?lab=lab-04` | Average score and attempt count per task |
-   | `TestTimeline` | `GET /analytics/timeline?lab=lab-04` | Submission count per day |
-   | `TestGroups` | `GET /analytics/groups?lab=lab-04` | Average score and student count per group |
+   | Test class      | Endpoint                               | What it tests                             |
+   | --------------- | -------------------------------------- | ----------------------------------------- |
+   | `TestScores`    | `GET /analytics/scores?lab=lab-04`     | Score histogram with 4 buckets            |
+   | `TestPassRates` | `GET /analytics/pass-rates?lab=lab-04` | Average score and attempt count per task  |
+   | `TestTimeline`  | `GET /analytics/timeline?lab=lab-04`   | Submission count per day                  |
+   | `TestGroups`    | `GET /analytics/groups?lab=lab-04`     | Average score and student count per group |
 
-> [!NOTE]
-> The tests create an in-memory database with fixture data and send requests to the endpoints.
-> You do not need to modify the tests — only the endpoint implementations.
+   > 🟦 **Note**
+   >
+   > The tests create an in-memory database with fixture data and send requests to the endpoints.
+   > You do not need to modify the tests — only the endpoint implementations.
 
 2. [Open the file](../../../wiki/vs-code.md#open-the-file):
    [`backend/app/routers/analytics.py`](../../../backend/app/routers/analytics.py).
@@ -90,22 +95,22 @@ Title: `[Task] Analytics Endpoints`
 
 ### 1.5. Implement the endpoints
 
-You can implement the endpoints manually or use an AI coding agent. Each endpoint performs an `SQL` aggregation query.
-
-> [!TIP]
-> If using an AI agent, give it a prompt like:
->
-> "Read the tests in `backend/tests/unit/test_analytics.py` and the stubs in `backend/app/routers/analytics.py`. Implement all four endpoints to make the tests pass. Use SQLAlchemy/SQLModel queries."
->
-> The agent will have the test expectations and the TODO comments to guide it.
-
-The `lab` query parameter is a lab identifier like `"lab-04"`. Transform it to match the title format (e.g. `"lab-04"` → `"Lab 04"`) and find items whose title contains that string.
-
 <!-- no toc -->
 - [1.5.1. Scores histogram](#151-scores-histogram)
 - [1.5.2. Pass rates](#152-pass-rates)
 - [1.5.3. Timeline](#153-timeline)
 - [1.5.4. Groups](#154-groups)
+
+You can implement the endpoints manually or use an AI coding agent. Each endpoint performs an `SQL` aggregation query.
+
+> [!TIP]
+> If using an AI agent, give it a prompt like:
+>
+> "Read the tests in `backend/tests/unit/test_analytics.py` and the stubs in `backend/app/routers/analytics.py`. Implement all four endpoints to make the tests pass. Use `SQLAlchemy`/`SQLModel` queries."
+>
+> The agent will have the test expectations and the TODO comments to guide it.
+
+The `lab` query parameter is a lab identifier like `"lab-04"`. Transform it to match the title format (e.g. `"lab-04"` → `"Lab 04"`) and find items whose title contains that string.
 
 #### 1.5.1. Scores histogram
 
@@ -202,7 +207,7 @@ Query logic:
    ===================== 20 passed in X.XXs =====================
    ```
 
-   <details><summary>Troubleshooting</summary>
+   <details><summary><b>Troubleshooting (click to open)</b></summary>
 
    <h4>Some tests still fail</h4>
 
@@ -260,7 +265,9 @@ Query logic:
 
 3. [Authorize in `Swagger UI`](../../../wiki/swagger.md#authorize-in-swagger-ui) with your [`API_KEY`](../../../wiki/dotenv-docker-secret.md#api_key) in [`.env.docker.secret`](../../../wiki/dotenv-docker-secret.md#what-is-envdockersecret).
 
-4. Try each analytics endpoint with `lab=lab-04` (or any lab that has data). Verify that each returns a `200` response with a `JSON` array.
+4. Try each analytics endpoint with `lab=lab-04` (or any lab that has data).
+
+5. Verify that each returns a `200` response with a `JSON` array.
 
 ### 1.9. Finish the task
 

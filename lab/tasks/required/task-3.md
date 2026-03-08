@@ -15,6 +15,10 @@ The analytics endpoints are returning data. Now the team wants a visual dashboar
 You will use `Chart.js` (via `react-chartjs-2`) to create bar charts, line charts, or tables.
 An AI coding agent can help with the `Chart.js` integration.
 
+<h4>Diagram</h4>
+
+<!-- TODO fill in this section -->
+
 <h4>Table of contents</h4>
 
 - [1. Steps](#1-steps)
@@ -35,7 +39,7 @@ An AI coding agent can help with the `Chart.js` integration.
 
 ### 1.1. Follow the `Git workflow`
 
-Follow the [`Git workflow`](../../../wiki/git-workflow.md) to complete this task.
+Follow the [`Git workflow`](../../../wiki/git-workflow.md#create-a-lab-task-issue) to complete this task.
 
 ### 1.2. Create a `Lab Task` issue
 
@@ -89,7 +93,7 @@ Title: `[Task] Dashboard Front-end`
    > 5. Includes a dropdown to select different labs.
    > 6. The code must pass `npm run typecheck` (TypeScript strict mode). Use proper types for all API responses — no `any`."
 
-   Use a default such as `lab-04` if data exists, or any other lab that has data in your environment.
+   Replace `<lab-id>` (without `<` and `>`) with a valid lab ID, such as `lab-04`, or any other lab that has data in your environment.
 
 3. Review the generated code. Make sure it:
 
@@ -115,11 +119,11 @@ Title: `[Task] Dashboard Front-end`
 
 1. Update `frontend/src/App.tsx` to include navigation between the Items page and the Dashboard.
 
-   You can use an AI agent or implement it manually. A simple approach:
+   You can use an AI agent or implement it manually. Complete these steps:
 
-   - Add a state variable for the current page (e.g., `"items"` or `"dashboard"`).
-   - Add buttons or links in the header to switch between pages.
-   - Render the Items table or the Dashboard component based on the current page.
+   1. Add a state variable for the current page (e.g., `"items"` or `"dashboard"`).
+   2. Add buttons or links in the header to switch between pages.
+   3. Render the Items table or the Dashboard component based on the current page.
 
 ### 1.6. Run the type checker
 
@@ -148,7 +152,9 @@ Title: `[Task] Dashboard Front-end`
    - Using `any` instead of a proper interface for API responses.
    - Accessing properties on possibly `undefined` values without null checks.
 
-   **Tip:** If you used an AI agent, give it the error output and ask it to fix the type errors. Include the instruction "Do not use `any` types" in your prompt.
+   > 🟩 **Tip**
+   >
+   > If you used an AI agent, give it the error output and ask it to fix the type errors. Include the instruction "Do not use `any` types" in your prompt.
 
 4. To go back to the project root,
 
@@ -190,7 +196,9 @@ Title: `[Task] Dashboard Front-end`
 
    You should see charts rendering with data from the analytics endpoints.
 
-   **Note:** Make sure you have run `POST /pipeline/sync` at least once (from Task 1) so there is data for the analytics endpoints to return.
+   > 🟦 **Note**
+   >
+   > Make sure you have run `POST /pipeline/sync` at least once (from Task 1) so there is data for the analytics endpoints to return.
 
 ### 1.8. Commit and push your work
 
@@ -245,9 +253,11 @@ Title: `[Task] Dashboard Front-end`
    If you changed [`CADDY_PORT`](../../../wiki/dotenv-docker-secret.md#caddy_port) in [`.env.docker.secret`](../../../wiki/dotenv-docker-secret.md#what-is-envdockersecret), use your value instead of `42002`.
 
 5. Connect with your API key.
-6. Verify the Dashboard page shows charts.
+6. Navigate to the Dashboard page.
 
-   <details><summary>Troubleshooting</summary>
+   You should see charts rendering with data from the analytics endpoints.
+
+   <details><summary><b>Troubleshooting (click to open)</b></summary>
 
    <h4>Charts do not render</h4>
 

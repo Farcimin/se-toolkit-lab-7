@@ -665,7 +665,7 @@ Here are some [workspace settings](#workspace-settings) that you can change:
 
    **Note:** the file will be created if it doesn't yet exist.
 
-3. <details><summary>Troubleshooting</summary>
+   <details><summary><b>Troubleshooting (click to open)</b></summary>
 
    <h4>(<code>macOS</code> only) <code>command code doesn't exist</code></h4>
 
