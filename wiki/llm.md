@@ -20,6 +20,7 @@
   - [Context engineering](#context-engineering)
 - [Prompt](#prompt)
   - [Prompt engineering](#prompt-engineering)
+- [Response](#response)
 - [Modality](#modality)
   - [Multimodal model](#multimodal-model)
 
@@ -154,6 +155,13 @@ See [Prompt engineering](#prompt-engineering).
 ### Prompt engineering
 
 Prompt engineering is the practice of writing prompts that produce accurate, relevant, and useful responses.
+
+## Response
+
+A response is the output that an [LLM](#what-is-an-llm) generates from a [prompt](#prompt) during [inference](#inference).
+
+The response is generated token by token — the [model](#model) predicts one [token](#token) at a time until it produces a complete answer.
+
 ## Modality
 
 Modality is the type of input or output that a [model](#model) can process or generate:
