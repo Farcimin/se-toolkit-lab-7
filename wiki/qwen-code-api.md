@@ -164,6 +164,10 @@ Complete these steps:
    docker compose --env-file .env.secret up --build -d
    ```
 
+   > <h3>Troubleshooting</h3>
+   >
+   > [`Bind for <host>:<port> failed: port is already allocated`](./docker.md#bind-for-hostport-failed-port-is-already-allocated)
+
 ### Check that the `Qwen Code` API is accessible
 
 1. To send an [`HTTP` request](./http.md#http-request) to the [`Qwen Code` API](#what-is-qwen-code-api),
