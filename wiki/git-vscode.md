@@ -132,6 +132,8 @@ Docs:
    git switch <branch>
    ```
 
+   Replace the placeholder [`<branch>`](./git.md#branch-placeholder).
+
    Example:
 
    ```terminal
