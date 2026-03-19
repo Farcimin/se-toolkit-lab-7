@@ -34,36 +34,39 @@ The LLM receives:
 
 The LLM responds with tool calls. Your bot executes them against the real backend, feeds the results back, and the LLM produces the final answer.
 
-## Tool definitions
+## Required tools
 
-Define your backend endpoints as tools the LLM can call. Example tool schema:
+Define **all** backend endpoints as tools the LLM can call. This gives the intent router enough variety to handle diverse questions.
+
+| Tool name | Endpoint | Description for LLM |
+|-----------|----------|-------------------|
+| `get_items` | `GET /items/` | Get the list of labs and tasks in the LMS |
+| `get_learners` | `GET /learners/` | Get enrolled students and their groups |
+| `get_scores` | `GET /analytics/scores?lab=` | Get score distribution (4 buckets) for a lab |
+| `get_pass_rates` | `GET /analytics/pass-rates?lab=` | Get per-task average scores and attempt counts |
+| `get_timeline` | `GET /analytics/timeline?lab=` | Get submissions per day for a lab |
+| `get_groups` | `GET /analytics/groups?lab=` | Get per-group average scores and student counts |
+| `get_top_learners` | `GET /analytics/top-learners?lab=&limit=` | Get top N learners by average score |
+| `get_completion_rate` | `GET /analytics/completion-rate?lab=` | Get completion rate percentage for a lab |
+| `trigger_sync` | `POST /pipeline/sync` | Trigger ETL sync to refresh data from autochecker |
+
+Example tool schema:
 
 ```python
-tools = [
-    {
-        "type": "function",
-        "function": {
-            "name": "get_items",
-            "description": "Get the list of labs and tasks in the LMS",
-            "parameters": {"type": "object", "properties": {}, "required": []},
-        },
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "get_pass_rates",
-            "description": "Get per-task average scores and attempt counts for a lab",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "lab": {"type": "string", "description": "Lab identifier, e.g. 'lab-01'"}
-                },
-                "required": ["lab"],
+{
+    "type": "function",
+    "function": {
+        "name": "get_pass_rates",
+        "description": "Get per-task average scores and attempt counts for a lab",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "lab": {"type": "string", "description": "Lab identifier, e.g. 'lab-01'"}
             },
+            "required": ["lab"],
         },
     },
-    # ... more tools for your other endpoints
-]
+}
 ```
 
 ## Scenarios to cover
@@ -75,16 +78,18 @@ Your intent router should handle these categories:
 | User message | Expected behavior |
 |---|---|
 | "what labs are available?" | Calls `get_items`, lists labs |
+| "how many students are enrolled?" | Calls `get_learners`, counts |
 | "show me scores for lab 4" | Calls `get_pass_rates(lab="lab-04")`, formats results |
 | "who are the top 5 students?" | Calls `get_top_learners(limit=5)`, formats leaderboard |
 | "which group is doing best in lab 3?" | Calls `get_groups(lab="lab-03")`, ranks groups |
+| "how many submissions were there today?" | Calls `get_timeline`, filters recent |
 
 **Multi-step reasoning (multiple API calls):**
 
 | User message | Expected behavior |
 |---|---|
-| "which lab has the lowest pass rate?" | Gets lab list, then pass rates for each, compares |
-| "compare group A and group B" | Gets group data, filters, compares |
+| "which lab has the lowest pass rate?" | Calls `get_items` → `get_pass_rates` per lab → compares |
+| "compare group A and group B" | Calls `get_groups` → filters → compares |
 
 **Fallback / ambiguous:**
 
@@ -104,9 +109,9 @@ Add inline keyboard buttons or a reply keyboard so users can discover available 
 
 Accepts plain text (no `/` prefix), sends to LLM with tool definitions, executes tool calls, returns formatted response. Must work in `--test` mode.
 
-### 2. Tool definitions
+### 2. All 9 tools defined and wired
 
-Backend API endpoints defined as function schemas the LLM can choose from. At least 3 tools covering different endpoints.
+Each tool from the table above must be defined as a function schema and have a working implementation that calls the corresponding backend endpoint.
 
 ### 3. Fallback handling
 
@@ -122,7 +127,7 @@ Keyboard markup (inline or reply) for common actions. Must be present in the sou
 - [ ] `--test "which lab has the lowest pass rate"` returns an answer mentioning a specific lab.
 - [ ] `--test "asdfgh"` returns a helpful message, not a crash or empty response.
 - [ ] Source code contains keyboard/button setup (`InlineKeyboardMarkup`, `ReplyKeyboardMarkup`, or equivalent).
-- [ ] Source code defines tool/function schemas for the LLM (at least 3 tools).
+- [ ] Source code defines at least 9 tool/function schemas for the LLM.
 - [ ] Changes follow the Git workflow (issue, branch, PR, review, merge).
 
 ## Working with your coding agent
@@ -139,7 +144,7 @@ This is the most complex task — take it step by step. The key concept is **LLM
 
 > Here are my backend endpoints [paste the table from the task]. Help me design tool schemas for them. What makes a good tool description — why does description quality matter more than prompt engineering?
 
-> I have 3 tools defined. Before implementing the loop, walk me through: if the user says "which lab has the lowest pass rate?", what should the LLM's reasoning look like? Which tools would it call and in what order?
+> I have 9 tools defined. Before implementing the loop, walk me through: if the user says "which lab has the lowest pass rate?", what should the LLM's reasoning look like? Which tools would it call and in what order?
 
 **Debugging intent routing:**
 

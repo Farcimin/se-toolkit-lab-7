@@ -37,11 +37,13 @@ Give these to your coding agent as context:
 - CLI test mode: `python bot/bot.py --test "/command"` prints response to stdout
 - `/start` — welcome message
 - `/help` — lists available commands
-- `/health` — calls backend, reports status
-- At least 2 data commands fetching real data from the LMS backend
+- `/health` — calls backend `GET /items/`, reports status
+- `/labs` — lists available labs from `GET /items/`
+- `/scores <lab>` — shows per-task pass rates from `GET /analytics/pass-rates?lab=`
 
 **P1 — Should have (Task 3):**
 - Natural language intent routing — plain text messages interpreted by LLM
+- All backend endpoints wrapped as LLM tools (9 tools)
 - Inline keyboard buttons for common commands
 - Graceful error handling
 
@@ -59,9 +61,12 @@ The `--test` flag is how the autochecker verifies your bot without Telegram:
 python bot/bot.py --test "/start"
 python bot/bot.py --test "/help"
 python bot/bot.py --test "/health"
+python bot/bot.py --test "/labs"
+python bot/bot.py --test "/scores lab-04"
 
 # Natural language (Task 3)
 python bot/bot.py --test "what labs are available"
+python bot/bot.py --test "which lab has the lowest pass rate"
 ```
 
 **Behavior:**
@@ -74,7 +79,7 @@ python bot/bot.py --test "what labs are available"
 
 ### 1. Development plan (`bot/PLAN.md`)
 
-A plan produced with your coding agent's help. Should describe the approach for all three tasks (scaffold, backend integration, intent routing). At least 100 words.
+A plan produced with your coding agent's help. Should describe the approach for all tasks (scaffold, backend integration, intent routing, deployment). At least 100 words.
 
 ### 2. Bot entry point (`bot/bot.py`)
 
