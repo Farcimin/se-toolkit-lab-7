@@ -18,7 +18,7 @@ def heading_anchor(text: str) -> str:
 
 def scan_file(filepath: Path) -> list[tuple[int, str, str, str]]:
     lines = filepath.read_text(encoding="utf-8", errors="replace").splitlines()
-    results = []
+    results: list[tuple[int, str, str, str]] = []
     i = 0
     while i < len(lines):
         line = lines[i]
@@ -26,7 +26,7 @@ def scan_file(filepath: Path) -> list[tuple[int, str, str, str]]:
             heading_line = i + 1
             heading_text = line.rstrip()
             j = i + 1
-            body_lines = []
+            body_lines: list[str] = []
             while j < len(lines):
                 if re.match(r"^#{1,6}\s+", lines[j]):
                     break
@@ -36,7 +36,7 @@ def scan_file(filepath: Path) -> list[tuple[int, str, str, str]]:
             if not non_blank:
                 results.append((heading_line, heading_text, "empty", ""))
             else:
-                todo_comments = []
+                todo_comments: list[str] = []
                 all_todo = True
                 for bl in non_blank:
                     m = re.match(r"^<!--\s*TODO\s*(.*?)\s*-->$", bl)
@@ -46,14 +46,21 @@ def scan_file(filepath: Path) -> list[tuple[int, str, str, str]]:
                         all_todo = False
                         break
                 if all_todo and todo_comments:
-                    results.append((heading_line, heading_text, "TODO", " | ".join(todo_comments)))
+                    results.append(
+                        (heading_line, heading_text, "TODO", " | ".join(todo_comments))
+                    )
         i += 1
     return results
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("path", nargs="?", default=None, help="Directory to scan (default: lab/tasks/ and wiki/)")
+    parser.add_argument(
+        "path",
+        nargs="?",
+        default=None,
+        help="Directory to scan (default: lab/tasks/ and wiki/)",
+    )
     parser.add_argument("--output", required=True, help="Path to write the report to")
     args = parser.parse_args()
 
@@ -121,7 +128,9 @@ def main() -> None:
                     if kind == "empty":
                         out.append(f"- [{label}]({link_target}) — {heading} (empty)")
                     else:
-                        out.append(f"- [{label}]({link_target}) — {heading} (TODO: {comment})")
+                        out.append(
+                            f"- [{label}]({link_target}) — {heading} (TODO: {comment})"
+                        )
                 out.append("")
 
     out.append("---")
