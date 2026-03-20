@@ -77,6 +77,42 @@ By the end of this lab, you should be able to say:
 2. I can ask it questions in plain language and it fetches the right data.
 3. I used an AI coding agent to plan and build the whole thing.
 
+## Deploy
+
+### Required environment variables
+
+Add these to `.env.docker.secret`:
+
+| Variable | Description |
+|---|---|
+| `BOT_TOKEN` | Telegram bot token from @BotFather |
+| `LMS_API_KEY` | API key for the LMS backend |
+| `LLM_API_KEY` | API key for the LLM service |
+| `LLM_API_BASE_URL` | LLM API endpoint (default: `http://host.docker.internal:42005/v1`) |
+| `LLM_API_MODEL` | LLM model name (default: `coder-model`) |
+
+### Start all services
+
+```terminal
+cd ~/se-toolkit-lab-7
+docker compose --env-file .env.docker.secret up --build -d
+```
+
+### Verify
+
+```terminal
+# Check all services are running
+docker compose --env-file .env.docker.secret ps
+
+# Check bot logs
+docker compose --env-file .env.docker.secret logs bot --tail 20
+
+# Check backend is healthy
+curl -sf http://localhost:42002/docs
+```
+
+Then send `/start` to the bot in Telegram to verify it responds.
+
 ## Tasks
 
 ### Prerequisites
