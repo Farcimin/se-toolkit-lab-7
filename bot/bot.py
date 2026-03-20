@@ -1,5 +1,5 @@
 """Bot entry point — supports --test mode and Telegram polling."""
-# Task1, 
+# Task1, Task2
 import argparse
 import asyncio
 import sys
