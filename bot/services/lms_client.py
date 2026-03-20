@@ -22,6 +22,27 @@ class LMSClient:
             resp.raise_for_status()
             return resp.json()
 
+    async def get_learners(self) -> list[dict]:
+        async with httpx.AsyncClient() as client:
+            resp = await client.get(
+                f"{self._base_url}/learners/",
+                headers=self._headers,
+                timeout=10.0,
+            )
+            resp.raise_for_status()
+            return resp.json()
+
+    async def get_scores(self, lab: str) -> dict:
+        async with httpx.AsyncClient() as client:
+            resp = await client.get(
+                f"{self._base_url}/analytics/scores",
+                params={"lab": lab},
+                headers=self._headers,
+                timeout=10.0,
+            )
+            resp.raise_for_status()
+            return resp.json()
+
     async def get_pass_rates(self, lab: str) -> list[dict]:
         async with httpx.AsyncClient() as client:
             resp = await client.get(
@@ -29,6 +50,61 @@ class LMSClient:
                 params={"lab": lab},
                 headers=self._headers,
                 timeout=10.0,
+            )
+            resp.raise_for_status()
+            return resp.json()
+
+    async def get_timeline(self, lab: str) -> list[dict]:
+        async with httpx.AsyncClient() as client:
+            resp = await client.get(
+                f"{self._base_url}/analytics/timeline",
+                params={"lab": lab},
+                headers=self._headers,
+                timeout=10.0,
+            )
+            resp.raise_for_status()
+            return resp.json()
+
+    async def get_groups(self, lab: str) -> list[dict]:
+        async with httpx.AsyncClient() as client:
+            resp = await client.get(
+                f"{self._base_url}/analytics/groups",
+                params={"lab": lab},
+                headers=self._headers,
+                timeout=10.0,
+            )
+            resp.raise_for_status()
+            return resp.json()
+
+    async def get_top_learners(self, lab: str, limit: int = 5) -> list[dict]:
+        async with httpx.AsyncClient() as client:
+            resp = await client.get(
+                f"{self._base_url}/analytics/top-learners",
+                params={"lab": lab, "limit": limit},
+                headers=self._headers,
+                timeout=10.0,
+            )
+            resp.raise_for_status()
+            return resp.json()
+
+    async def get_completion_rate(self, lab: str) -> dict:
+        async with httpx.AsyncClient() as client:
+            resp = await client.get(
+                f"{self._base_url}/analytics/completion-rate",
+                params={"lab": lab},
+                headers=self._headers,
+                timeout=10.0,
+            )
+            resp.raise_for_status()
+            return resp.json()
+
+    async def trigger_sync(self) -> dict:
+        async with httpx.AsyncClient() as client:
+            resp = await client.post(
+                f"{self._base_url}/pipeline/sync",
+                headers={**self._headers, "Content-Type": "application/json"},
+                content="{}",
+                timeout=30.0,
             )
             resp.raise_for_status()
             return resp.json()
