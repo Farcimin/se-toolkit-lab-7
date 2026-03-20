@@ -232,9 +232,18 @@ async def route(user_message: str) -> str:
 
         return "I couldn't complete the request after multiple steps."
 
-    except httpx.ConnectError as e:
-        return f"LLM error: connection refused ({e.request.url.host}:{e.request.url.port}). Check that the LLM service is running."
-    except httpx.HTTPStatusError as e:
-        return f"LLM error: HTTP {e.response.status_code}. Check LLM API credentials and service status."
-    except httpx.RequestError as e:
-        return f"LLM error: {e}"
+    except (httpx.ConnectError, httpx.HTTPStatusError, httpx.RequestError) as e:
+        print(f"[router] LLM error: {e}", file=sys.stderr)
+        return _fallback_response(user_message)
+
+
+def _fallback_response(user_message: str) -> str:
+    """Return a helpful message when the LLM is unavailable."""
+    return (
+        "I can help you with LMS data, but the AI service is currently unavailable. "
+        "You can try these commands instead:\n"
+        "/help — list available commands\n"
+        "/labs — list available labs\n"
+        "/scores <lab> — show score data for a lab\n"
+        "/health — check backend status"
+    )
