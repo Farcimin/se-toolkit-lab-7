@@ -90,4 +90,4 @@ By the end of this lab, you should be able to say:
 1. [Plan and Scaffold](./lab/tasks/required/task-1.md) — P0: project structure + `--test` mode
 2. [Backend Integration](./lab/tasks/required/task-2.md) — P0: slash commands + real data
 3. [Intent-Based Natural Language Routing](./lab/tasks/required/task-3.md) — P1: LLM tool use
-4. [Deploy and Document](./lab/tasks/required/task-4.md) — P3: containerize + deploy
+4. [Containerize and Document](./lab/tasks/required/task-4.md) — P3: containerize + deploy
